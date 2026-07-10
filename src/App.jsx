@@ -12,12 +12,12 @@ import {
   Wrench,
   Zap,
 } from 'lucide-react';
-import logo from './assets/astral-logo.png';
-import heroPool from './assets/hero-pool.jpg';
+import logo from './assets/astral-logo-transparent.png';
+import heroPool from './assets/hero-premium-pool.jpg';
 import hdpeWork from './assets/hdpe-work.jpg';
 import equipmentRoom from './assets/equipment-room.jpg';
 import siteService from './assets/site-service.jpg';
-import contactPool from './assets/contact-pool.jpg';
+import footerPool from './assets/footer-premium-pool.jpg';
 import marassiPark from './assets/project-marassi-park.jpg';
 import marassiShore from './assets/project-marassi-shore.jpg';
 import danaMall from './assets/project-dana-mall.jpg';
@@ -105,6 +105,19 @@ function SectionHeading({ eyebrow, title, text }) {
   );
 }
 
+function BrandLockup({ compact = false }) {
+  return (
+    <div className={`brand-lockup ${compact ? 'compact' : ''}`}>
+      <img src={logo} alt="" aria-hidden="true" />
+      <div>
+        <span className="brand-arabic">أسترال لبرك السباحة والسباكة ذ.م.م</span>
+        <strong>ASTRAL</strong>
+        <small>Pools and Plumbing W.L.L.</small>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -138,8 +151,7 @@ export default function App() {
     <>
       <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
         <a className="brand" href="#home" aria-label="Astral home">
-          <img src={logo} alt="Astral Pools and Plumbing logo" />
-          <span>Astral</span>
+          <BrandLockup compact />
         </a>
         <nav aria-label="Primary navigation">
           {navItems.map((item) => (
@@ -258,16 +270,27 @@ export default function App() {
           </div>
         </section>
 
-        <section id="contact" className="contact">
-          <img src={contactPool} alt="Indoor pool with refined architectural finishes" />
+        <section className="contact" aria-labelledby="contact-heading">
+          <img className="contact-bg" src={footerPool} alt="Refined indoor-outdoor pool with architectural lighting" />
+          <div className="contact-wave" />
           <div className="contact-panel reveal">
-            <Sparkles size={24} />
-            <h2>Creating exceptional pool experiences for you.</h2>
-            <p>P.O. Box 82365 | C.R. 151782-1 | Flat 14 | Bldg. 446P | Road 1206 | Block 712 | Al Ramli | Kingdom of Bahrain</p>
-            <a href="tel:+97377088685"><Phone size={18} /> +973 7708 8685</a>
-            <a href="tel:+97339856743"><Phone size={18} /> +973 39856743 / 33664081</a>
-            <a href="mailto:astralpoolsplumbing@gmail.com"><Mail size={18} /> astralpoolsplumbing@gmail.com</a>
-            <span><MapPin size={18} /> Kingdom of Bahrain</span>
+            <div className="footer-brand">
+              <BrandLockup />
+            </div>
+            <div id="contact" className="contact-details">
+              <span className="contact-label">Contact Us</span>
+              <h2 id="contact-heading">We look forward to creating exceptional pool experiences for you.</h2>
+              <div className="contact-lines">
+                <p><MapPin size={20} /> P.O. Box 82365 | C.R. 151782-1 | Flat 14 | Bldg. 446P | Road 1206 | Block 712 | Al Ramli | Kingdom of Bahrain</p>
+                <a href="tel:+97377088685"><Phone size={20} /> Tel: +973 7708 8685</a>
+                <a href="tel:+97339856743"><Phone size={20} /> Mob.: +973 39856743 | 33664081</a>
+                <a href="mailto:astralpoolsplumbing@gmail.com"><Mail size={20} /> E-mail: astralpoolsplumbing@gmail.com</a>
+              </div>
+            </div>
+            <div className="contact-promise">
+              <Sparkles size={24} />
+              <strong>Committed to honesty and integrity</strong>
+            </div>
           </div>
         </section>
       </main>

@@ -4,8 +4,9 @@
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: geometricPrecision;
-  --blue: #263d8f;
-  --blue-deep: #14275f;
+  --blue: #273f92;
+  --blue-deep: #061f52;
+  --blue-royal: #12358d;
   --cyan: #8fd5ef;
   --aqua: #dff7fb;
   --yellow: #dce800;
@@ -48,32 +49,89 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 18px clamp(20px, 5vw, 70px);
+  min-height: 92px;
+  padding: 14px clamp(20px, 4.6vw, 64px);
   color: white;
-  background: linear-gradient(180deg, rgba(7, 20, 50, 0.78), rgba(7, 20, 50, 0));
+  background: linear-gradient(90deg, #04163d, #082968 62%, #061f52);
   backdrop-filter: blur(10px);
-  transition: background 260ms ease, box-shadow 260ms ease, padding 260ms ease;
+  border-bottom: 1px solid rgba(143, 213, 239, 0.18);
+  box-shadow: 0 16px 60px rgba(3, 14, 38, 0.16);
+  transition: min-height 260ms ease, box-shadow 260ms ease, padding 260ms ease;
 }
 
 .site-header.is-scrolled {
-  padding-block: 12px;
-  background: rgba(14, 30, 78, 0.92);
+  min-height: 76px;
+  padding-block: 10px;
   box-shadow: 0 18px 60px rgba(3, 14, 38, 0.2);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+}
+
+.brand-lockup img {
+  width: 118px;
+  height: 64px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.brand-lockup div {
+  display: grid;
+  line-height: 1;
+}
+
+.brand-arabic {
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.78rem;
   font-weight: 800;
-  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brand-lockup strong {
+  color: white;
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  font-weight: 950;
   letter-spacing: 0;
 }
 
-.brand img {
-  width: 58px;
-  height: 38px;
-  object-fit: contain;
+.brand-lockup small {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.86rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brand-lockup.compact {
+  gap: 10px;
+}
+
+.brand-lockup.compact img {
+  width: 92px;
+  height: 48px;
+}
+
+.brand-lockup.compact .brand-arabic {
+  font-size: 0.58rem;
+}
+
+.brand-lockup.compact strong {
+  font-size: 1.34rem;
+}
+
+.brand-lockup.compact small {
+  font-size: 0.62rem;
 }
 
 .site-header nav {
@@ -100,7 +158,7 @@ a {
   min-height: 100svh;
   display: grid;
   align-items: end;
-  padding: 130px clamp(22px, 6vw, 86px) 88px;
+  padding: 170px clamp(22px, 6vw, 86px) 74px;
   color: white;
   isolation: isolate;
   overflow: hidden;
@@ -113,6 +171,7 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   animation: heroDrift 18s ease-in-out infinite alternate;
 }
 
@@ -121,8 +180,8 @@ a {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(8, 22, 52, 0.84), rgba(8, 22, 52, 0.36) 52%, rgba(8, 22, 52, 0.08)),
-    linear-gradient(0deg, rgba(8, 22, 52, 0.48), transparent 48%);
+    linear-gradient(90deg, rgba(4, 18, 48, 0.9), rgba(4, 18, 48, 0.44) 48%, rgba(4, 18, 48, 0.03)),
+    linear-gradient(0deg, rgba(4, 18, 48, 0.46), transparent 52%);
 }
 
 .hero-content {
@@ -139,6 +198,23 @@ a {
   font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
+}
+
+.tagline::after,
+.section-heading span::after,
+.contact-label::after {
+  content: "";
+  display: block;
+  width: 58px;
+  height: 5px;
+  background: var(--yellow);
+}
+
+.tagline,
+.section-heading span,
+.contact-label {
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .hero h1,
@@ -418,50 +494,148 @@ a {
 }
 
 .contact {
-  min-height: 92svh;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(380px, 0.72fr);
-  background: var(--blue);
+  position: relative;
+  min-height: 820px;
+  overflow: hidden;
+  background: var(--blue-deep);
   color: white;
+  isolation: isolate;
 }
 
-.contact > img {
+.contact-bg {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -3;
   width: 100%;
-  height: 100%;
-  min-height: 620px;
+  height: 66%;
   object-fit: cover;
+  object-position: center 45%;
+}
+
+.contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(180deg, rgba(3, 14, 38, 0.08), rgba(3, 14, 38, 0.72) 56%, rgba(3, 14, 38, 0.95));
+}
+
+.contact-wave {
+  position: absolute;
+  left: -8vw;
+  right: -8vw;
+  bottom: -115px;
+  z-index: -1;
+  height: 54%;
+  background:
+    radial-gradient(circle at 22% 10%, rgba(82, 169, 235, 0.35), transparent 30%),
+    linear-gradient(115deg, #06245f, #00428f 55%, #06245f);
+  border-top: 8px solid rgba(143, 213, 239, 0.95);
+  border-radius: 52% 48% 0 0 / 30% 26% 0 0;
+  transform: rotate(-2deg);
+  transform-origin: bottom center;
 }
 
 .contact-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 18px;
-  padding: clamp(34px, 5vw, 72px);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(420px, 1.45fr) minmax(210px, 0.6fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: end;
+  min-height: 820px;
+  padding: 360px clamp(22px, 6vw, 86px) 72px;
 }
 
-.contact-panel svg {
+.footer-brand {
+  padding-right: clamp(20px, 4vw, 54px);
+  border-right: 1px dashed rgba(255, 255, 255, 0.45);
+}
+
+.footer-brand .brand-lockup {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-brand .brand-lockup img {
+  width: min(250px, 58vw);
+  height: auto;
+}
+
+.footer-brand .brand-lockup strong {
+  font-size: clamp(3rem, 5vw, 4.6rem);
+}
+
+.footer-brand .brand-lockup small {
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+}
+
+.footer-brand .brand-arabic {
+  font-size: clamp(0.9rem, 1.4vw, 1.08rem);
+}
+
+.contact-details {
+  display: grid;
+  gap: 20px;
+  scroll-margin-top: 112px;
+}
+
+.contact-label {
+  display: inline-flex;
+  gap: 10px;
+  color: white;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.contact-panel h2 {
+  max-width: 680px;
+  color: white;
+  font-size: clamp(1.9rem, 3.1vw, 3.35rem);
+  line-height: 1.03;
+  text-transform: uppercase;
+}
+
+.contact-lines {
+  display: grid;
+  gap: 15px;
+}
+
+.contact-lines p,
+.contact-lines a {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.98rem, 1.25vw, 1.08rem);
+  line-height: 1.55;
+}
+
+.contact-lines svg,
+.contact-promise svg {
   color: var(--yellow);
   flex: 0 0 auto;
 }
 
-.contact-panel h2 {
-  color: white;
-}
-
-.contact-panel p,
-.contact-panel a,
-.contact-panel span {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.86);
-  line-height: 1.6;
-}
-
-.contact-panel a:hover {
+.contact-lines a:hover {
   color: var(--yellow);
+}
+
+.contact-promise {
+  display: grid;
+  gap: 16px;
+  padding-left: clamp(20px, 4vw, 48px);
+  border-left: 1px dashed rgba(255, 255, 255, 0.45);
+}
+
+.contact-promise strong {
+  max-width: 290px;
+  color: white;
+  font-size: clamp(1.4rem, 2.2vw, 2.3rem);
+  line-height: 1.12;
+  text-transform: uppercase;
 }
 
 .reveal {
@@ -488,6 +662,7 @@ a {
 @media (max-width: 1080px) {
   .site-header {
     align-items: flex-start;
+    min-height: 104px;
   }
 
   .site-header nav {
@@ -501,8 +676,7 @@ a {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .split,
-  .contact {
+  .split {
     grid-template-columns: 1fr;
   }
 
@@ -515,18 +689,32 @@ a {
     width: 100%;
   }
 
-  .contact > img {
-    min-height: 420px;
+  .contact-panel {
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding-top: 320px;
+  }
+
+  .footer-brand,
+  .contact-promise {
+    border: 0;
+    padding: 0;
   }
 }
 
 @media (max-width: 720px) {
   .site-header {
+    min-height: 86px;
     padding: 14px 18px;
   }
 
-  .brand span {
+  .brand-lockup.compact div {
     display: none;
+  }
+
+  .brand-lockup.compact img {
+    width: 74px;
+    height: 38px;
   }
 
   .site-header nav {
@@ -536,7 +724,11 @@ a {
 
   .hero {
     min-height: 94svh;
-    padding: 112px 20px 54px;
+    padding: 126px 20px 54px;
+  }
+
+  .hero-bg {
+    object-position: 58% center;
   }
 
   .hero h1 {
@@ -578,8 +770,45 @@ a {
     min-height: 148px;
   }
 
-  .contact > img {
-    min-height: 320px;
+  .contact {
+    min-height: 860px;
+  }
+
+  .contact-bg {
+    height: 44%;
+    object-position: center top;
+  }
+
+  .contact-wave {
+    left: -42vw;
+    right: -42vw;
+    bottom: -82px;
+    height: 66%;
+    border-top-width: 5px;
+    border-radius: 58% 42% 0 0 / 18% 16% 0 0;
+  }
+
+  .contact-panel {
+    min-height: 860px;
+    gap: 26px;
+    padding: 355px 20px 48px;
+  }
+
+  .footer-brand .brand-lockup img {
+    width: 180px;
+  }
+
+  .footer-brand .brand-lockup strong {
+    font-size: 3rem;
+  }
+
+  .contact-panel h2 {
+    font-size: clamp(1.8rem, 10vw, 3rem);
+  }
+
+  .contact-lines p,
+  .contact-lines a {
+    font-size: 0.94rem;
   }
 }
 
