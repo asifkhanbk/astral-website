@@ -524,9 +524,9 @@ a {
   position: absolute;
   left: -8vw;
   right: -8vw;
-  bottom: -115px;
+  bottom: -80px;
   z-index: -1;
-  height: 54%;
+  height: 62%;
   background:
     radial-gradient(circle at 22% 10%, rgba(82, 169, 235, 0.35), transparent 30%),
     linear-gradient(115deg, #06245f, #00428f 55%, #06245f);
@@ -543,7 +543,7 @@ a {
   gap: clamp(24px, 4vw, 64px);
   align-items: end;
   min-height: 820px;
-  padding: 360px clamp(22px, 6vw, 86px) 72px;
+  padding: 455px clamp(22px, 6vw, 86px) 86px;
 }
 
 .footer-brand {
@@ -590,10 +590,10 @@ a {
 }
 
 .contact-panel h2 {
-  max-width: 680px;
+  max-width: 420px;
   color: white;
-  font-size: clamp(1.9rem, 3.1vw, 3.35rem);
-  line-height: 1.03;
+  font-size: clamp(1.55rem, 2.45vw, 2.55rem);
+  line-height: 1.08;
   text-transform: uppercase;
 }
 
@@ -613,8 +613,7 @@ a {
   line-height: 1.55;
 }
 
-.contact-lines svg,
-.contact-promise svg {
+.contact-lines svg {
   color: var(--yellow);
   flex: 0 0 auto;
 }
@@ -625,17 +624,18 @@ a {
 
 .contact-promise {
   display: grid;
-  gap: 16px;
+  gap: 18px;
+  align-self: center;
   padding-left: clamp(20px, 4vw, 48px);
   border-left: 1px dashed rgba(255, 255, 255, 0.45);
 }
 
-.contact-promise strong {
-  max-width: 290px;
-  color: white;
-  font-size: clamp(1.4rem, 2.2vw, 2.3rem);
-  line-height: 1.12;
-  text-transform: uppercase;
+.contact-promise::after {
+  content: "";
+  display: block;
+  width: 58px;
+  height: 5px;
+  background: var(--yellow);
 }
 
 .reveal {
@@ -782,8 +782,8 @@ a {
   .contact-wave {
     left: -42vw;
     right: -42vw;
-    bottom: -82px;
-    height: 66%;
+    bottom: -70px;
+    height: 72%;
     border-top-width: 5px;
     border-radius: 58% 42% 0 0 / 18% 16% 0 0;
   }
@@ -791,7 +791,7 @@ a {
   .contact-panel {
     min-height: 860px;
     gap: 26px;
-    padding: 355px 20px 48px;
+    padding: 430px 20px 52px;
   }
 
   .footer-brand .brand-lockup img {
@@ -803,7 +803,7 @@ a {
   }
 
   .contact-panel h2 {
-    font-size: clamp(1.8rem, 10vw, 3rem);
+    font-size: clamp(1.7rem, 8vw, 2.65rem);
   }
 
   .contact-lines p,

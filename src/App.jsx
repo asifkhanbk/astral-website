@@ -8,7 +8,6 @@ import {
   MapPin,
   Phone,
   ShieldCheck,
-  Sparkles,
   Wrench,
   Zap,
 } from 'lucide-react';
@@ -279,7 +278,6 @@ export default function App() {
             </div>
             <div id="contact" className="contact-details">
               <span className="contact-label">Contact Us</span>
-              <h2 id="contact-heading">We look forward to creating exceptional pool experiences for you.</h2>
               <div className="contact-lines">
                 <p><MapPin size={20} /> P.O. Box 82365 | C.R. 151782-1 | Flat 14 | Bldg. 446P | Road 1206 | Block 712 | Al Ramli | Kingdom of Bahrain</p>
                 <a href="tel:+97377088685"><Phone size={20} /> Tel: +973 7708 8685</a>
@@ -288,8 +286,7 @@ export default function App() {
               </div>
             </div>
             <div className="contact-promise">
-              <Sparkles size={24} />
-              <strong>Committed to honesty and integrity</strong>
+              <h2 id="contact-heading">We look forward to creating exceptional pool experiences for you.</h2>
             </div>
           </div>
         </section>
