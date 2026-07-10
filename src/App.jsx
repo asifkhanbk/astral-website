@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   Building2,
@@ -105,9 +106,37 @@ function SectionHeading({ eyebrow, title, text }) {
 }
 
 export default function App() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 32);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    const revealed = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.16 },
+    );
+
+    revealed.forEach((item) => observer.observe(item));
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <>
-      <header className="site-header">
+      <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
         <a className="brand" href="#home" aria-label="Astral home">
           <img src={logo} alt="Astral Pools and Plumbing logo" />
           <span>Astral</span>
@@ -126,7 +155,6 @@ export default function App() {
           <img className="hero-bg" src={heroPool} alt="Luxury swimming pool with waterfall beside a modern villa" />
           <div className="hero-overlay" />
           <div className="hero-content reveal">
-            <img className="hero-logo" src={logo} alt="" aria-hidden="true" />
             <p className="tagline">Committed to honesty and integrity</p>
             <h1>Astral Pools and Plumbing W.L.L.</h1>
             <p>

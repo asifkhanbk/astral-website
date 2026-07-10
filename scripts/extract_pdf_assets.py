@@ -53,14 +53,14 @@ def main():
 
   if PDFTOPPM.exists():
     subprocess.run(
-      [str(PDFTOPPM), "-f", "1", "-l", "1", "-png", "-r", "220", str(PDF), str(TMP / "render")],
+      [str(PDFTOPPM), "-f", "16", "-l", "16", "-png", "-r", "220", str(PDF), str(TMP / "render")],
       check=True,
     )
-    cover = TMP / "render-01.png"
-    with Image.open(cover) as image:
+    contact = TMP / "render-16.png"
+    with Image.open(contact) as image:
       image = image.convert("RGBA")
       width, height = image.size
-      logo = image.crop((int(width * 0.36), int(height * 0.04), int(width * 0.64), int(height * 0.14)))
+      logo = image.crop((int(width * 0.17), int(height * 0.585), int(width * 0.52), int(height * 0.675)))
       logo.save(ASSETS / "astral-logo.png", optimize=True)
 
   print(f"Extracted Astral website assets to {ASSETS}")
