@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Award,
@@ -18,22 +18,22 @@ import {
   Zap,
 } from 'lucide-react';
 import logo from './assets/astral-logo-transparent.png';
-import heroPool from './assets/hero-premium-pool.jpg';
-import equipmentRoom from './assets/equipment-room.jpg';
-import siteService from './assets/site-service.jpg';
-import footerPool from './assets/footer-premium-pool.jpg';
-import marassiPark from './assets/project-marassi-park.jpg';
-import marassiShore from './assets/project-marassi-shore.jpg';
-import danaMall from './assets/project-dana-mall.jpg';
-import iraqEmbassy from './assets/project-iraq-embassy.jpg';
-import kingdomMall from './assets/project-kingdom-mall.jpg';
-import bahrainKuwait from './assets/project-bahrain-kuwait-embassy.jpg';
-import riffaViews from './assets/project-riffa-views.jpg';
-import youthSports from './assets/project-youth-sports.jpg';
-import staffAli from './assets/staff-ali-salman.jpg';
-import staffAjithkhan from './assets/staff-ajithkhan-panamparambil.jpg';
-import staffSreemon from './assets/staff-sreemon-janardhanan.jpg';
-import staffSanthosh from './assets/staff-santhosh-daniel.jpg';
+import heroPool from './assets/hero-premium-pool.webp';
+import equipmentRoom from './assets/equipment-room.webp';
+import siteService from './assets/site-service.webp';
+import footerPool from './assets/footer-premium-pool.webp';
+import marassiPark from './assets/project-marassi-park.webp';
+import marassiShore from './assets/project-marassi-shore.webp';
+import danaMall from './assets/project-dana-mall.webp';
+import iraqEmbassy from './assets/project-iraq-embassy.webp';
+import kingdomMall from './assets/project-kingdom-mall.webp';
+import bahrainKuwait from './assets/project-bahrain-kuwait-embassy.webp';
+import riffaViews from './assets/project-riffa-views.webp';
+import youthSports from './assets/project-youth-sports.webp';
+import staffAli from './assets/staff-ali-salman.webp';
+import staffAjithkhan from './assets/staff-ajithkhan-panamparambil.webp';
+import staffSreemon from './assets/staff-sreemon-janardhanan.webp';
+import staffSanthosh from './assets/staff-santhosh-daniel.webp';
 
 const navItems = [
   { label: 'About', id: 'about' },
@@ -186,6 +186,53 @@ const clients = [
   'Property Developers',
 ];
 
+function LazyImage({ src, alt, eager = false, onLoad, className = '', ...props }) {
+  const imageRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(eager);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    if (eager || shouldLoad) return undefined;
+
+    const image = imageRef.current;
+    if (!image || !('IntersectionObserver' in window)) {
+      setShouldLoad(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '640px 0px' },
+    );
+
+    observer.observe(image);
+    return () => observer.disconnect();
+  }, [eager, shouldLoad]);
+
+  return (
+    <img
+      ref={imageRef}
+      className={`${className} ${isLoaded ? 'is-loaded' : 'is-pending'}`.trim()}
+      src={shouldLoad ? src : undefined}
+      alt={alt}
+      onLoad={(event) => {
+        setIsLoaded(true);
+        onLoad?.(event);
+      }}
+      {...props}
+    />
+  );
+}
+
+function DecorativeIcon({ icon: Icon, size = 24 }) {
+  return <Icon size={size} aria-hidden="true" focusable="false" />;
+}
+
 function SectionHeading({ eyebrow, title, text }) {
   return (
     <div className="section-heading reveal">
@@ -199,7 +246,7 @@ function SectionHeading({ eyebrow, title, text }) {
 function BrandLockup({ compact = false }) {
   return (
     <div className={`brand-lockup ${compact ? 'compact' : ''}`}>
-      <img src={logo} alt="" aria-hidden="true" />
+      <img src={logo} alt="" aria-hidden="true" decoding="async" />
       <div>
         <span className="brand-arabic">أسترال لبرك السباحة والسباكة ذ.م.م</span>
         <strong>ASTRAL</strong>
@@ -213,7 +260,7 @@ function Preloader({ isLeaving }) {
   return (
     <div className={`preloader ${isLeaving ? 'is-leaving' : ''}`} role="status" aria-live="polite" aria-label="Loading Astral Pools and Plumbing">
       <div className="preloader-content">
-        <img className="preloader-logo" src={logo} alt="Astral Pools and Plumbing logo" />
+        <img className="preloader-logo" src={logo} alt="Astral Pools and Plumbing logo" decoding="async" />
         <div className="preloader-copy">
           <span className="preloader-arabic" lang="ar" dir="rtl">أسترال لبرك السباحة والسباكة ذ.م.م</span>
           <div className="preloader-waterline" aria-hidden="true" />
@@ -231,6 +278,12 @@ export default function App() {
   const [showPreloader, setShowPreloader] = useState(true);
   const [preloaderLeaving, setPreloaderLeaving] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [renderDeferredSections, setRenderDeferredSections] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return Boolean(window.location.hash && !['#home', '#about', '#services', '#why-us', '#expertise'].includes(window.location.hash));
+  });
+  const navToggleRef = useRef(null);
+  const mobileNavPanelRef = useRef(null);
 
   useEffect(() => {
     const sectionNavTargets = navSectionGroups.flatMap((group) =>
@@ -300,7 +353,21 @@ export default function App() {
       window.removeEventListener('hashchange', handleHashChange);
       observer.disconnect();
     };
-  }, []);
+  }, [renderDeferredSections]);
+
+  useEffect(() => {
+    if (renderDeferredSections) return undefined;
+
+    const loadDeferredSections = () => setRenderDeferredSections(true);
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(loadDeferredSections, { timeout: 1200 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = window.setTimeout(loadDeferredSections, 350);
+    return () => window.clearTimeout(timeoutId);
+  }, [renderDeferredSections]);
 
   useEffect(() => {
     const start = window.setTimeout(() => setPreloaderLeaving(true), 3200);
@@ -314,33 +381,49 @@ export default function App() {
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === 'Escape') setIsNavOpen(false);
+      if (event.key === 'Escape') {
+        setIsNavOpen(false);
+        navToggleRef.current?.focus();
+      }
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth > 1080) setIsNavOpen(false);
     };
 
     document.body.classList.toggle('nav-open', isNavOpen);
     window.addEventListener('keydown', handleEscape);
+    window.addEventListener('resize', handleResize);
+
+    if (isNavOpen) {
+      mobileNavPanelRef.current?.querySelector('a')?.focus();
+    }
 
     return () => {
       document.body.classList.remove('nav-open');
       window.removeEventListener('keydown', handleEscape);
+      window.removeEventListener('resize', handleResize);
     };
   }, [isNavOpen]);
 
   return (
     <>
       {showPreloader ? <Preloader isLeaving={preloaderLeaving} /> : null}
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
         <a className="brand" href="#home" aria-label="Astral home">
           <BrandLockup compact />
         </a>
         <button
+          ref={navToggleRef}
           className="nav-toggle"
           type="button"
           aria-label={isNavOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isNavOpen}
+          aria-controls="mobile-navigation"
           onClick={() => setIsNavOpen((open) => !open)}
         >
-          {isNavOpen ? <X size={22} /> : <Menu size={22} />}
+          {isNavOpen ? <X size={22} aria-hidden="true" focusable="false" /> : <Menu size={22} aria-hidden="true" focusable="false" />}
         </button>
         <nav aria-label="Primary navigation">
           {navItems.map((item) => (
@@ -348,6 +431,7 @@ export default function App() {
               className={activeSection === item.id ? 'active' : ''}
               key={item.id}
               href={`#${item.id}`}
+              aria-current={activeSection === item.id ? 'page' : undefined}
               onClick={() => {
                 setActiveSection(item.id);
                 setIsNavOpen(false);
@@ -365,7 +449,13 @@ export default function App() {
         aria-label="Close navigation menu"
         onClick={() => setIsNavOpen(false)}
       />
-      <aside className={`mobile-nav-panel ${isNavOpen ? 'is-open' : ''}`} aria-hidden={!isNavOpen}>
+      <aside
+        id="mobile-navigation"
+        ref={mobileNavPanelRef}
+        className={`mobile-nav-panel ${isNavOpen ? 'is-open' : ''}`}
+        aria-hidden={!isNavOpen}
+        aria-label="Mobile navigation panel"
+      >
         <span className="mobile-nav-kicker">Navigation</span>
         <nav aria-label="Mobile navigation">
           {navItems.map((item) => (
@@ -373,9 +463,12 @@ export default function App() {
               className={activeSection === item.id ? 'active' : ''}
               key={item.id}
               href={`#${item.id}`}
+              aria-current={activeSection === item.id ? 'page' : undefined}
+              tabIndex={isNavOpen ? 0 : -1}
               onClick={() => {
                 setActiveSection(item.id);
                 setIsNavOpen(false);
+                navToggleRef.current?.focus();
               }}
             >
               {item.label}
@@ -384,9 +477,18 @@ export default function App() {
         </nav>
       </aside>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section id="home" className="hero">
-          <img className="hero-bg" src={heroPool} alt="Luxury swimming pool with waterfall beside a modern villa" />
+          <LazyImage
+            className="hero-bg"
+            src={heroPool}
+            alt="Luxury swimming pool with waterfall beside a modern villa"
+            eager
+            width="1672"
+            height="941"
+            decoding="async"
+            fetchPriority="high"
+          />
           <div className="hero-overlay" />
           <div className="hero-content reveal">
             <p className="tagline">Committed to honesty and integrity</p>
@@ -395,10 +497,10 @@ export default function App() {
               Swimming pool, water-feature, plumbing, HDPE, MEP, and maintenance solutions delivered across Kingdom of Bahrain.
             </p>
             <div className="hero-actions">
-              <a className="button primary" href="#projects">
-                View Projects <ArrowRight size={18} />
+              <a className="button primary" href="#projects" onClick={() => setRenderDeferredSections(true)}>
+                View Projects <ArrowRight size={18} aria-hidden="true" focusable="false" />
               </a>
-              <a className="button ghost" href="#contact">
+              <a className="button ghost" href="#contact" onClick={() => setRenderDeferredSections(true)}>
                 Contact Us
               </a>
             </div>
@@ -414,7 +516,7 @@ export default function App() {
           <div className="values-grid">
             {values.map(({ title, text, icon: Icon }) => (
               <article className="value-card reveal" key={title}>
-                <Icon size={24} />
+                <DecorativeIcon icon={Icon} size={24} />
                 <h3>{title}</h3>
                 <p>{text}</p>
               </article>
@@ -452,7 +554,7 @@ export default function App() {
             <div className="why-grid">
               {whyChooseUs.map((item, index) => (
                 <article className="why-card reveal" key={item} style={{ '--delay': `${index * 55}ms` }}>
-                  <Award size={20} />
+                  <DecorativeIcon icon={Award} size={20} />
                   <h3>{item}</h3>
                 </article>
               ))}
@@ -471,7 +573,7 @@ export default function App() {
               <div className="expertise-grid">
                 {expertise.map(({ title, text, icon: Icon }) => (
                   <article className="expertise-card reveal" key={title}>
-                    <Icon size={22} />
+                    <DecorativeIcon icon={Icon} size={22} />
                     <h3>{title}</h3>
                     <p>{text}</p>
                   </article>
@@ -481,101 +583,113 @@ export default function App() {
           </div>
         </section>
 
-        <section id="assurance" className="section assurance">
-          <SectionHeading
-            eyebrow="Quality, Safety & Support"
-            title="Built to perform after handover."
-            text="Every project is supported by durable materials, safe installation practices, and maintenance care designed to protect long-term performance."
-          />
-          <div className="assurance-grid">
-            {assurance.map(({ title, intro, points, image, icon: Icon }) => (
-              <article className="assurance-card reveal" key={title}>
-                <img src={image} alt={`${title} by Astral Pools and Plumbing`} />
-                <div>
-                  <Icon size={24} />
-                  <h3>{title}</h3>
-                  <p>{intro}</p>
-                  <ul>
-                    {points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="staff" className="section staff">
-          <SectionHeading
-            eyebrow="Key Staff"
-            title="Experienced leadership for commercial and technical delivery."
-            text="Our leadership and technical team help clients move from initial discussions to coordinated site execution with clear responsibility and practical support."
-          />
-          <div className="staff-grid">
-            {staff.map(({ name, role, image, text }) => (
-              <article className="staff-card reveal" key={name}>
-                <img src={image} alt={`${name}, ${role}`} />
-                <div>
-                  <p>{role}</p>
-                  <h3>{name}</h3>
-                  <span>{text}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="projects" className="section projects">
-          <SectionHeading
-            eyebrow="Projects"
-            title="Selected work across pools, fountains, plumbing, and cooling systems."
-            text="Explore a selection of completed work across swimming pools, fountains, plumbing, and cooling systems for varied project environments."
-          />
-          <div className="project-grid">
-            {projects.map(([name, type, image]) => (
-              <article className="project-card reveal" key={name}>
-                <img src={image} alt={`${name} ${type}`} />
-                <div>
-                  <p>{type}</p>
-                  <h3>{name}</h3>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="clients" className="section clients">
-          <SectionHeading
-            eyebrow="Clients"
-            title="Trusted by residential, commercial, and public-facing project teams."
-            text="Astral values long-term relationships built on trust, performance, transparent communication, and reliable after-sales support."
-          />
-          <div className="client-list reveal">
-            {clients.map((client) => (
-              <span key={client}>{client}</span>
-            ))}
-          </div>
-        </section>
-
-        <section id="contact" className="contact" aria-labelledby="contact-heading">
-          <img className="contact-bg" src={footerPool} alt="Refined indoor-outdoor pool with architectural lighting" />
-          <div className="contact-wave" />
-          <div className="contact-panel reveal">
-            <div className="footer-brand">
-              <BrandLockup />
-            </div>
-            <div className="contact-details">
-              <span id="contact-heading" className="contact-label">Contact Us</span>
-              <div className="contact-lines">
-                <p><MapPin size={20} /> P.O. Box 82365 | C.R. 151782-1 | Flat 14 | Bldg. 446P | Road 1206 | Block 712 | Al Ramli | Kingdom of Bahrain</p>
-                <a href="tel:+97377088685"><Phone size={20} /> Tel: +973 7708 8685</a>
-                <a href="tel:+97339856743"><Phone size={20} /> Mob.: +973 39856743 | 33664081</a>
-                <a href="mailto:astralpoolsplumbing@gmail.com"><Mail size={20} /> E-mail: astralpoolsplumbing@gmail.com</a>
+        {renderDeferredSections ? (
+          <>
+            <section id="assurance" className="section assurance">
+              <SectionHeading
+                eyebrow="Quality, Safety & Support"
+                title="Built to perform after handover."
+                text="Every project is supported by durable materials, safe installation practices, and maintenance care designed to protect long-term performance."
+              />
+              <div className="assurance-grid">
+                {assurance.map(({ title, intro, points, image, icon: Icon }) => (
+                  <article className="assurance-card reveal" key={title}>
+                    <LazyImage src={image} alt={`${title} by Astral Pools and Plumbing`} loading="lazy" decoding="async" />
+                    <div>
+                      <DecorativeIcon icon={Icon} size={24} />
+                      <h3>{title}</h3>
+                      <p>{intro}</p>
+                      <ul>
+                        {points.map((point) => (
+                          <li key={point}>{point}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
+
+            <section id="staff" className="section staff">
+              <SectionHeading
+                eyebrow="Key Staff"
+                title="Experienced leadership for commercial and technical delivery."
+                text="Our leadership and technical team help clients move from initial discussions to coordinated site execution with clear responsibility and practical support."
+              />
+              <div className="staff-grid">
+                {staff.map(({ name, role, image, text }) => (
+                  <article className="staff-card reveal" key={name}>
+                    <LazyImage src={image} alt={`${name}, ${role}`} loading="lazy" decoding="async" />
+                    <div>
+                      <p>{role}</p>
+                      <h3>{name}</h3>
+                      <span>{text}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="projects" className="section projects">
+              <SectionHeading
+                eyebrow="Projects"
+                title="Selected work across pools, fountains, plumbing, and cooling systems."
+                text="Explore a selection of completed work across swimming pools, fountains, plumbing, and cooling systems for varied project environments."
+              />
+              <div className="project-grid">
+                {projects.map(([name, type, image]) => (
+                  <article className="project-card reveal" key={name}>
+                    <LazyImage src={image} alt={`${name} ${type}`} loading="lazy" decoding="async" />
+                    <div>
+                      <p>{type}</p>
+                      <h3>{name}</h3>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="clients" className="section clients">
+              <SectionHeading
+                eyebrow="Clients"
+                title="Trusted by residential, commercial, and public-facing project teams."
+                text="Astral values long-term relationships built on trust, performance, transparent communication, and reliable after-sales support."
+              />
+              <div className="client-list reveal">
+                {clients.map((client) => (
+                  <span key={client}>{client}</span>
+                ))}
+              </div>
+            </section>
+
+            <section id="contact" className="contact" aria-labelledby="contact-heading">
+              <LazyImage
+                className="contact-bg"
+                src={footerPool}
+                alt="Refined indoor-outdoor pool with architectural lighting"
+                width="1672"
+                height="941"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="contact-wave" />
+              <div className="contact-panel reveal">
+                <div className="footer-brand">
+                  <BrandLockup />
+                </div>
+                <div className="contact-details">
+                  <span id="contact-heading" className="contact-label">Contact Us</span>
+                  <div className="contact-lines">
+                    <p><MapPin size={20} aria-hidden="true" focusable="false" /> P.O. Box 82365 | C.R. 151782-1 | Flat 14 | Bldg. 446P | Road 1206 | Block 712 | Al Ramli | Kingdom of Bahrain</p>
+                    <a href="tel:+97377088685"><Phone size={20} aria-hidden="true" focusable="false" /> Tel: +973 7708 8685</a>
+                    <a href="tel:+97339856743"><Phone size={20} aria-hidden="true" focusable="false" /> Mob.: +973 39856743 | 33664081</a>
+                    <a href="mailto:astralpoolsplumbing@gmail.com"><Mail size={20} aria-hidden="true" focusable="false" /> E-mail: astralpoolsplumbing@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </>
+        ) : null}
       </main>
     </>
   );

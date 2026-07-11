@@ -1,0 +1,17 @@
+{
+  "name": "Astral Pools and Plumbing W.L.L.",
+  "short_name": "Astral Pools",
+  "description": "Pool, plumbing, water-feature, and maintenance contractor in Bahrain.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#061f52",
+  "theme_color": "#061f52",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "636x231",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
