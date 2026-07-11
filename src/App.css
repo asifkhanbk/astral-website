@@ -1165,14 +1165,33 @@ a {
   }
 
   .contact-panel {
-    grid-template-columns: 1fr;
-    align-items: start;
-    padding-top: 320px;
+    grid-template-columns: minmax(190px, 0.5fr) minmax(0, 1fr);
+    align-items: end;
+    min-height: 760px;
+    gap: clamp(24px, 4vw, 42px);
+    padding-top: 370px;
+    padding-bottom: 70px;
   }
 
   .footer-brand {
-    border: 0;
-    padding: 0;
+    padding-left: 0;
+    padding-right: clamp(18px, 3vw, 32px);
+  }
+
+  .footer-brand .brand-lockup img {
+    width: min(168px, 24vw);
+  }
+
+  .footer-brand .brand-lockup strong {
+    font-size: clamp(2rem, 3.35vw, 2.85rem);
+  }
+
+  .footer-brand .brand-lockup small {
+    font-size: clamp(0.78rem, 1.25vw, 0.96rem);
+  }
+
+  .footer-brand .brand-arabic {
+    font-size: clamp(0.68rem, 1.05vw, 0.84rem);
   }
 }
 
@@ -1388,9 +1407,16 @@ a {
   }
 
   .contact-panel {
+    grid-template-columns: 1fr;
+    align-items: start;
     min-height: 860px;
     gap: 26px;
     padding: 430px 20px 52px;
+  }
+
+  .footer-brand {
+    border: 0;
+    padding: 0;
   }
 
   .footer-brand .brand-lockup img {
