@@ -39,13 +39,15 @@ const navItems = [
   { label: 'About', id: 'about' },
   { label: 'Services', id: 'services' },
   { label: 'Projects', id: 'projects' },
+  { label: 'Team', id: 'team' },
   { label: 'Contact', id: 'contact' },
 ];
 
 const navSectionGroups = [
   { navId: 'about', sectionIds: ['about'] },
-  { navId: 'services', sectionIds: ['services', 'why-us', 'expertise', 'assurance', 'staff'] },
+  { navId: 'services', sectionIds: ['services', 'expertise', 'assurance', 'why-us'] },
   { navId: 'projects', sectionIds: ['projects', 'clients'] },
+  { navId: 'team', sectionIds: ['team'] },
   { navId: 'contact', sectionIds: ['contact'] },
 ];
 
@@ -292,7 +294,7 @@ export default function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [renderDeferredSections, setRenderDeferredSections] = useState(() => {
     if (typeof window === 'undefined') return false;
-    return Boolean(window.location.hash && !['#home', '#about', '#services', '#why-us', '#expertise'].includes(window.location.hash));
+    return Boolean(window.location.hash && !['#home', '#about', '#services', '#expertise'].includes(window.location.hash));
   });
   const navToggleRef = useRef(null);
   const mobileNavPanelRef = useRef(null);
@@ -304,10 +306,12 @@ export default function App() {
 
     const getActiveNavId = () => {
       const readingLine = window.scrollY + window.innerHeight * 0.42;
+      const orderedTargets = sectionNavTargets
+        .map(({ sectionId, navId }) => ({ section: document.getElementById(sectionId), navId }))
+        .filter(({ section }) => section)
+        .sort((a, b) => a.section.offsetTop - b.section.offsetTop);
 
-      return sectionNavTargets.reduce((activeNavId, { sectionId, navId }) => {
-        const section = document.getElementById(sectionId);
-        if (!section) return activeNavId;
+      return orderedTargets.reduce((activeNavId, { section, navId }) => {
         return section.offsetTop <= readingLine ? navId : activeNavId;
       }, navItems[0].id);
     };
@@ -556,24 +560,6 @@ export default function App() {
           </div>
         </section>
 
-        <section id="why-us" className="section why-us">
-          <div className="why-layout">
-            <SectionHeading
-              eyebrow="Why Choose Us"
-              title="Detail-led delivery with the discipline clients expect."
-              text="Astral focuses on long-lasting results, careful coordination, and transparent project communication from the first site discussion to after-sales support."
-            />
-            <div className="why-grid">
-              {whyChooseUs.map((item, index) => (
-                <article className="why-card reveal" key={item} style={{ '--delay': `${index * 55}ms` }}>
-                  <DecorativeIcon icon={Award} size={20} />
-                  <h3>{item}</h3>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section id="expertise" className="section expertise">
           <div className="split">
             <div>
@@ -622,23 +608,21 @@ export default function App() {
               </div>
             </section>
 
-            <section id="staff" className="section staff">
-              <SectionHeading
-                eyebrow="Key Staff"
-                title="Experienced leadership for commercial and technical delivery."
-                text="Our leadership and technical team help clients move from initial discussions to coordinated site execution with clear responsibility and practical support."
-              />
-              <div className="staff-grid">
-                {staff.map(({ name, role, image, text }) => (
-                  <article className="staff-card reveal" key={name}>
-                    <LazyImage src={image} alt={`${name}, ${role}`} loading="lazy" decoding="async" />
-                    <div>
-                      <p>{role}</p>
-                      <h3>{name}</h3>
-                      <span>{text}</span>
-                    </div>
-                  </article>
-                ))}
+            <section id="why-us" className="section why-us">
+              <div className="why-layout">
+                <SectionHeading
+                  eyebrow="Why Choose Us"
+                  title="Detail-led delivery with the discipline clients expect."
+                  text="Astral focuses on long-lasting results, careful coordination, and transparent project communication from the first site discussion to after-sales support."
+                />
+                <div className="why-grid">
+                  {whyChooseUs.map((item, index) => (
+                    <article className="why-card reveal" key={item} style={{ '--delay': `${index * 55}ms` }}>
+                      <DecorativeIcon icon={Award} size={20} />
+                      <h3>{item}</h3>
+                    </article>
+                  ))}
+                </div>
               </div>
             </section>
 
@@ -700,6 +684,26 @@ export default function App() {
               </div>
             </section>
 
+            <section id="team" className="section staff">
+              <SectionHeading
+                eyebrow="Team"
+                title="Experienced leadership for commercial and technical delivery."
+                text="Our leadership and technical team help clients move from initial discussions to coordinated site execution with clear responsibility and practical support."
+              />
+              <div className="staff-grid">
+                {staff.map(({ name, role, image, text }) => (
+                  <article className="staff-card reveal" key={name}>
+                    <LazyImage src={image} alt={`${name}, ${role}`} loading="lazy" decoding="async" />
+                    <div>
+                      <p>{role}</p>
+                      <h3>{name}</h3>
+                      <span>{text}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
             <section id="contact" className="contact" aria-labelledby="contact-heading">
               <LazyImage
                 className="contact-bg"
@@ -715,13 +719,15 @@ export default function App() {
                 <div className="footer-brand">
                   <BrandLockup />
                 </div>
-                <div className="contact-details">
-                  <span id="contact-heading" className="contact-label">Contact Us</span>
+                <div className="contact-details" id="contact-heading">
+                  <div className="contact-heading">
+                    <span>Contact Us</span>
+                  </div>
                   <div className="contact-lines">
                     <p><MapPin size={20} aria-hidden="true" focusable="false" /> P.O. Box 82365 | C.R. 151782-1 | Flat 14 | Bldg. 446P | Road 1206 | Block 712 | Al Ramli | Kingdom of Bahrain</p>
-                    <a href="tel:+97377088685"><Phone size={20} aria-hidden="true" focusable="false" /> Tel: +973 7708 8685</a>
-                    <a href="tel:+97339856743"><Phone size={20} aria-hidden="true" focusable="false" /> Mob.: +973 39856743 | 33664081</a>
-                    <a href="mailto:astralpoolsplumbing@gmail.com"><Mail size={20} aria-hidden="true" focusable="false" /> E-mail: astralpoolsplumbing@gmail.com</a>
+                    <a href="tel:+97377088685" aria-label="Telephone +973 7708 8685"><Phone size={20} aria-hidden="true" focusable="false" /> +973 7708 8685</a>
+                    <a href="tel:+97339856743" aria-label="Mobile +973 39856743 or 33664081"><Phone size={20} aria-hidden="true" focusable="false" /> +973 39856743 | 33664081</a>
+                    <a href="mailto:astralpoolsplumbing@gmail.com" aria-label="Email astralpoolsplumbing@gmail.com"><Mail size={20} aria-hidden="true" focusable="false" /> astralpoolsplumbing@gmail.com</a>
                   </div>
                 </div>
               </div>
