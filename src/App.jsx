@@ -174,16 +174,28 @@ const projects = [
   ['Youth & Sports, Busateen', 'Swimming pool / fountain', youthSports],
 ];
 
-const clients = [
-  'Eagle Hills',
-  'MOM',
-  'Kingdom Mall',
-  'Youth & Sports',
-  'Bahrain Kuwait Embassy',
-  'Riffa Views',
-  'Residential Buildings',
-  'Commercial Residences',
-  'Property Developers',
+const clientProof = [
+  ['Residential', 'Private villas, residential buildings, and community pool environments.'],
+  ['Commercial', 'Retail destinations, mixed-use assets, and active commercial residences.'],
+  ['Institutional', 'Public-facing, diplomatic, and sports-sector project settings.'],
+];
+
+const clientGroups = [
+  {
+    title: 'Developers & Destinations',
+    text: 'Trusted for property-led environments where finish quality, coordination, and long-term performance matter.',
+    clients: ['Eagle Hills', 'Riffa Views', 'Property Developers'],
+  },
+  {
+    title: 'Public & Institutional',
+    text: 'Supporting facilities that require dependable execution, clear communication, and disciplined site delivery.',
+    clients: ['MOM', 'Youth & Sports', 'Bahrain Kuwait Embassy'],
+  },
+  {
+    title: 'Commercial & Residential',
+    text: 'Delivering pool, fountain, plumbing, and maintenance scope for buildings that stay in daily use.',
+    clients: ['Kingdom Mall', 'Residential Buildings', 'Commercial Residences'],
+  },
 ];
 
 function LazyImage({ src, alt, eager = false, onLoad, className = '', ...props }) {
@@ -655,10 +667,36 @@ export default function App() {
                 title="Trusted by residential, commercial, and public-facing project teams."
                 text="Astral values long-term relationships built on trust, performance, transparent communication, and reliable after-sales support."
               />
-              <div className="client-list reveal">
-                {clients.map((client) => (
-                  <span key={client}>{client}</span>
-                ))}
+              <div className="client-showcase">
+                <aside className="client-proof reveal" aria-label="Client sectors">
+                  {clientProof.map(([label, text]) => (
+                    <div key={label}>
+                      <strong>{label}</strong>
+                      <span>{text}</span>
+                    </div>
+                  ))}
+                </aside>
+
+                <div className="client-groups">
+                  {clientGroups.map((group, index) => (
+                    <article
+                      className="client-group reveal"
+                      key={group.title}
+                      style={{ '--delay': `${index * 70}ms` }}
+                    >
+                      <div className="client-group-copy">
+                        <span>{String(index + 1).padStart(2, '0')}</span>
+                        <h3>{group.title}</h3>
+                        <p>{group.text}</p>
+                      </div>
+                      <ul aria-label={`${group.title} clients`}>
+                        {group.clients.map((client) => (
+                          <li key={client}>{client}</li>
+                        ))}
+                      </ul>
+                    </article>
+                  ))}
+                </div>
               </div>
             </section>
 
