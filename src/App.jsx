@@ -342,13 +342,7 @@ export default function App() {
         >
           {isNavOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
-        <button
-          className={`mobile-nav-backdrop ${isNavOpen ? 'is-open' : ''}`}
-          type="button"
-          aria-label="Close navigation menu"
-          onClick={() => setIsNavOpen(false)}
-        />
-        <nav className={isNavOpen ? 'is-open' : ''} aria-label="Primary navigation">
+        <nav aria-label="Primary navigation">
           {navItems.map((item) => (
             <a
               className={activeSection === item.id ? 'active' : ''}
@@ -364,6 +358,31 @@ export default function App() {
           ))}
         </nav>
       </header>
+
+      <button
+        className={`mobile-nav-backdrop ${isNavOpen ? 'is-open' : ''}`}
+        type="button"
+        aria-label="Close navigation menu"
+        onClick={() => setIsNavOpen(false)}
+      />
+      <aside className={`mobile-nav-panel ${isNavOpen ? 'is-open' : ''}`} aria-hidden={!isNavOpen}>
+        <span className="mobile-nav-kicker">Navigation</span>
+        <nav aria-label="Mobile navigation">
+          {navItems.map((item) => (
+            <a
+              className={activeSection === item.id ? 'active' : ''}
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={() => {
+                setActiveSection(item.id);
+                setIsNavOpen(false);
+              }}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </aside>
 
       <main>
         <section id="home" className="hero">
