@@ -939,6 +939,71 @@ a {
   line-height: 1.58;
 }
 
+.closing-note {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(38px, 5vw, 64px) clamp(22px, 6vw, 86px);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(143, 213, 239, 0.28), transparent 42%),
+    linear-gradient(180deg, #092d73 0%, #f4fbfd 0.5%, #ffffff 58%, #eef7f8 100%);
+}
+
+.closing-note::before {
+  content: "";
+  position: absolute;
+  left: -12vw;
+  right: -12vw;
+  top: -70px;
+  height: 118px;
+  border-bottom: 1px solid rgba(143, 213, 239, 0.38);
+  border-radius: 0 0 50% 50% / 0 0 48% 48%;
+  background: linear-gradient(90deg, transparent, rgba(143, 213, 239, 0.14), transparent);
+  pointer-events: none;
+}
+
+.closing-note-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.closing-note-inner span {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  color: var(--blue-royal);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.closing-note-inner span::before,
+.closing-note-inner span::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 2px;
+  background: var(--yellow);
+  border-radius: 999px;
+}
+
+.closing-note-inner p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--blue-deep);
+  font-size: clamp(1.45rem, 3vw, 2.9rem);
+  font-weight: 950;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
 .project-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -1679,6 +1744,25 @@ img.is-loaded {
   .value-card,
   .why-card {
     min-height: 160px;
+  }
+
+  .closing-note {
+    padding: 38px 20px 44px;
+  }
+
+  .closing-note-inner span {
+    margin-bottom: 14px;
+    font-size: 0.68rem;
+  }
+
+  .closing-note-inner span::before,
+  .closing-note-inner span::after {
+    width: 28px;
+  }
+
+  .closing-note-inner p {
+    font-size: clamp(1.18rem, 6.8vw, 1.9rem);
+    line-height: 1.12;
   }
 
   .assurance-card {

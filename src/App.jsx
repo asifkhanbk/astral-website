@@ -48,7 +48,7 @@ const navSectionGroups = [
   { navId: 'services', sectionIds: ['services', 'expertise', 'assurance', 'why-us'] },
   { navId: 'projects', sectionIds: ['projects', 'clients'] },
   { navId: 'team', sectionIds: ['team'] },
-  { navId: 'contact', sectionIds: ['contact'] },
+  { navId: 'contact', sectionIds: ['closing-note', 'contact'] },
 ];
 
 const services = [
@@ -544,7 +544,7 @@ export default function App() {
           <div className="service-index">
             <div className="service-index-intro">
               <SectionHeading
-                eyebrow="Services"
+                eyebrow="Our Services"
                 title="A balanced portfolio of pool, plumbing, maintenance, and water-feature services."
                 text="From elegant pool construction to technical infrastructure support, Astral brings design attention and field discipline to every engagement."
               />
@@ -564,7 +564,7 @@ export default function App() {
           <div className="split">
             <div>
               <SectionHeading
-                eyebrow="Expertise"
+                eyebrow="Our Expertise"
                 title="Technical capability behind the finish."
                 text="Astral combines civil works, HDPE piping, electrical systems, plumbing networks, and maintenance support into one coordinated delivery model."
               />
@@ -628,7 +628,7 @@ export default function App() {
 
             <section id="projects" className="section projects">
               <SectionHeading
-                eyebrow="Projects"
+                eyebrow="Our Projects"
                 title="Selected work across pools, fountains, plumbing, and cooling systems."
                 text="Explore a selection of completed work across swimming pools, fountains, plumbing, and cooling systems for varied project environments."
               />
@@ -647,7 +647,7 @@ export default function App() {
 
             <section id="clients" className="section clients">
               <SectionHeading
-                eyebrow="Clients"
+                eyebrow="Our Clients"
                 title="Trusted by residential, commercial, and public-facing project teams."
                 text="Astral values long-term relationships built on trust, performance, transparent communication, and reliable after-sales support."
               />
@@ -686,7 +686,7 @@ export default function App() {
 
             <section id="team" className="section staff">
               <SectionHeading
-                eyebrow="Team"
+                eyebrow="Our Team"
                 title="Experienced leadership for commercial and technical delivery."
                 text="Our leadership and technical team help clients move from initial discussions to coordinated site execution with clear responsibility and practical support."
               />
@@ -701,6 +701,13 @@ export default function App() {
                     </div>
                   </article>
                 ))}
+              </div>
+            </section>
+
+            <section id="closing-note" className="closing-note" aria-label="Closing statement">
+              <div className="closing-note-inner reveal">
+                <span>Our Promise</span>
+                <p>We look forward to creating exceptional pool experiences for you.</p>
               </div>
             </section>
 
