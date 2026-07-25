@@ -30,10 +30,23 @@ import kingdomMall from './assets/project-kingdom-mall.webp';
 import bahrainKuwait from './assets/project-bahrain-kuwait-embassy.webp';
 import riffaViews from './assets/project-riffa-views.webp';
 import youthSports from './assets/project-youth-sports.webp';
+import protoAmwaj from './assets/project-proto-amwaj.webp';
+import seefTerrasse from './assets/project-seef-terrasse.webp';
+import oneOnlyResort from './assets/project-one-only-resort.webp';
+import duratAlBahrain from './assets/project-durat-al-bahrain.webp';
 import staffAli from './assets/staff-ali-salman.webp';
 import staffAjithkhan from './assets/staff-ajithkhan-panamparambil.webp';
 import staffSreemon from './assets/staff-sreemon-janardhanan.webp';
 import staffSanthosh from './assets/staff-santhosh-daniel.webp';
+import retailPump from './assets/retail-pump.webp';
+import retailFilter from './assets/retail-filter.webp';
+import retailChiller from './assets/retail-chiller.png';
+import retailPoolHeater from './assets/retail-pool-heater.png';
+import retailUnderwaterLight from './assets/retail-underwater-light.webp';
+import retailSsLadder from './assets/retail-ss-ladder.png';
+import retailDosingSystem from './assets/retail-dosing-system.png';
+import retailPoolAccessories from './assets/retail-pool-accessories.webp';
+import retailFloatingHose from './assets/retail-floating-hose.png';
 
 const navItems = [
   { label: 'About', id: 'about' },
@@ -45,7 +58,7 @@ const navItems = [
 
 const navSectionGroups = [
   { navId: 'about', sectionIds: ['about'] },
-  { navId: 'services', sectionIds: ['services', 'expertise', 'assurance', 'why-us'] },
+  { navId: 'services', sectionIds: ['services', 'products', 'expertise', 'assurance', 'why-us'] },
   { navId: 'projects', sectionIds: ['projects', 'clients'] },
   { navId: 'team', sectionIds: ['team'] },
   { navId: 'contact', sectionIds: ['closing-note', 'contact'] },
@@ -53,24 +66,90 @@ const navSectionGroups = [
 
 const services = [
   ['Pools', 'Swimming pool construction and maintenance'],
-  ['Plumbing', 'Plumbing contracting'],
+  ['Plumbing', 'Plumbing, water supply and drainage'],
   ['Systems', 'Boiler maintenance, supply and installation'],
   ['Climate', 'Heater and chiller systems for swimming pools'],
-  ['Wellness', 'Sauna and steam'],
-  ['Water Features', 'Fountain and jacuzzi'],
+  ['Wellness', 'Sauna and steam rooms'],
+  ['Water Features', 'Water features and jacuzzi'],
   ['Infrastructure', 'Electrical and irrigation'],
+];
+
+const products = [
+  {
+    title: 'Pool Pumps',
+    group: 'Circulation',
+    image: retailPump,
+    note: 'Reliable supply and support',
+  },
+  {
+    title: 'Filters',
+    group: 'Filtration',
+    image: retailFilter,
+    note: 'Selected to suit each pool',
+  },
+  {
+    title: 'Chillers',
+    group: 'Heating & Cooling',
+    image: retailChiller,
+    note: 'For comfortable pool water',
+  },
+  {
+    title: 'Pool Heaters',
+    group: 'Heating',
+    image: retailPoolHeater,
+    note: 'Residential and commercial use',
+  },
+  {
+    title: 'Underwater Lights',
+    group: 'Lighting',
+    image: retailUnderwaterLight,
+    note: 'Safe and refined lighting',
+  },
+  {
+    title: 'Dosing Systems',
+    group: 'Water Treatment',
+    image: retailDosingSystem,
+    note: 'For steady water care',
+  },
+  {
+    title: 'SS Ladders',
+    group: 'Access',
+    image: retailSsLadder,
+    note: 'Durable pool access fittings',
+  },
+  {
+    title: 'Pool Accessories',
+    group: 'Cleaning & Care',
+    image: retailPoolAccessories,
+    note: 'Daily care essentials',
+  },
+  {
+    title: 'Floating Hose',
+    group: 'Accessories',
+    image: retailFloatingHose,
+    note: 'Useful maintenance support',
+  },
+];
+
+const retailEssentials = [
+  'Tiles',
+  'Mosaic finishes',
+  'Valves and fittings',
+  'Pool covers',
+  'Cleaning equipment',
+  'Wellness equipment',
 ];
 
 const expertise = [
   {
     title: 'Civil Works',
     icon: Building2,
-    text: 'Swimming pools, balance tanks, water-feature structures, reinforced concrete, waterproofing, tiling, and architectural finishes.',
+    text: 'Pool structures, balance tanks, water features, waterproofing, tiling, and related finishing works.',
   },
   {
     title: 'HDPE & Mechanical',
     icon: Wrench,
-    text: 'Butt fusion, electrofusion, pressure pipelines, pump rooms, filtration systems, flushing, testing, and commissioning.',
+    text: 'HDPE piping, pump rooms, filtration systems, pressure lines, testing, and commissioning.',
   },
   {
     title: 'Electrical Systems',
@@ -80,7 +159,7 @@ const expertise = [
   {
     title: 'Plumbing Networks',
     icon: Droplets,
-    text: 'HDPE and UPVC water supply, drainage, filtration connections, valves, fittings, rainwater harvesting, and irrigation.',
+    text: 'Water supply, drainage, CDP, filtration connections, valves, fittings, rainwater harvesting, and irrigation.',
   },
 ];
 
@@ -93,12 +172,12 @@ const values = [
   {
     title: 'Mission',
     icon: Target,
-    text: 'To deliver durable, efficient, and beautifully crafted pools through expert design, advanced technology, and reliable service.',
+    text: 'To deliver reliable pool and plumbing solutions with careful planning, quality materials, and dependable service.',
   },
   {
     title: 'Core Values',
     icon: HeartHandshake,
-    text: 'Quality, integrity, innovation, and customer satisfaction guide every decision from first concept to after-sales support.',
+    text: 'Quality, integrity, clear communication, and customer satisfaction guide our work from planning to after-sales support.',
   },
 ];
 
@@ -116,7 +195,7 @@ const assurance = [
     title: 'Quality & Safety',
     icon: ShieldCheck,
     image: equipmentRoom,
-    intro: 'Quality and safety are integral to every stage of our work, from material selection to commissioning.',
+    intro: 'We focus on safe working practices, suitable materials, and proper checks before handover.',
     points: [
       'Tested and durable materials',
       'Proper waterproofing systems',
@@ -128,7 +207,7 @@ const assurance = [
     title: 'Maintenance & Support',
     icon: CheckCircle2,
     image: siteService,
-    intro: 'Astral supports hassle-free ownership through planned servicing and responsive technical care.',
+    intro: 'We help clients keep pools running well through regular servicing, inspections, and practical support.',
     points: [
       'Regular cleaning and servicing',
       'Water treatment and balancing',
@@ -143,37 +222,41 @@ const staff = [
     name: 'Ali Salman Ali Salman Almadhawab',
     role: 'Managing Director',
     image: staffAli,
-    text: 'Leads the company direction, client trust, and delivery standards behind Astral’s pool and plumbing portfolio.',
+    text: 'Leads the company and helps maintain clear standards for client service and project delivery.',
   },
   {
     name: 'Ajithkhan Panamparambil',
     role: 'Business Development Manager',
     image: staffAjithkhan,
-    text: 'Coordinates business development, client communication, and commercial relationships across project opportunities.',
+    text: 'Supports client communication, project enquiries, and business relationships from the first discussion.',
   },
   {
     name: 'Sreemon Janardhanan',
     role: 'MEP Coordinator',
     image: staffSreemon,
-    text: 'Supports coordinated mechanical, electrical, and plumbing execution for pool systems and site delivery.',
+    text: 'Coordinates mechanical, electrical, and plumbing requirements for pool systems and site work.',
   },
   {
     name: 'Santhosh Daniel',
     role: 'Project Manager',
     image: staffSanthosh,
-    text: 'Oversees project execution, site coordination, and practical delivery from planning through completion.',
+    text: 'Manages site coordination and supports smooth project progress from planning to completion.',
   },
 ];
 
 const projects = [
   ['Marassi Park', 'Heat cool units', marassiPark],
-  ['Marassi Shore', 'Swimming pool', marassiShore],
+  ['Marassi Shore', 'Swimming pool / plant room', marassiShore],
+  ['Proto Amwaj', 'Swimming pool project', protoAmwaj],
+  ['Seef Terrasse', 'Infinity pool', seefTerrasse],
+  ['One & Only Resort', 'Swimming pool works', oneOnlyResort],
+  ['Durat Al Bahrain', 'Residential villa pool', duratAlBahrain],
   ['Iraq Embassy Residence', 'Swimming pool', iraqEmbassy],
-  ['Dana Mall Phase 2', 'Plumbing works', danaMall],
-  ['Kingdom Mall', 'Fountain', kingdomMall],
+  ['Dana Mall at Manama', 'Water supply, drainage and CDP', danaMall],
+  ['Kingdom Mall', 'Water feature works', kingdomMall],
   ['Bahrain Kuwait Embassy', 'Swimming pool', bahrainKuwait],
-  ['Park 3, Riffa Views', 'Swimming pool', riffaViews],
-  ['Youth & Sports, Busateen', 'Swimming pool / fountain', youthSports],
+  ['Park 3, Riffa Views', 'Swimming pool works', riffaViews],
+  ['Youth & Sports Muharraq', 'Fountain / water feature', youthSports],
 ];
 
 const clientProof = [
@@ -185,18 +268,18 @@ const clientProof = [
 const clientGroups = [
   {
     title: 'Developers & Destinations',
-    text: 'Trusted for property-led environments where finish quality, coordination, and long-term performance matter.',
-    clients: ['Eagle Hills', 'Riffa Views', 'Property Developers'],
+    text: 'Supporting developments and destinations that need reliable coordination and a clean finished result.',
+    clients: ['Eagle Hills', 'Riffa Views', 'One & Only Resort', 'Property Developers'],
   },
   {
     title: 'Public & Institutional',
-    text: 'Supporting facilities that require dependable execution, clear communication, and disciplined site delivery.',
-    clients: ['MOM', 'Youth & Sports', 'Bahrain Kuwait Embassy'],
+    text: 'Working with facilities where clear communication, planning, and dependable site delivery are important.',
+    clients: ['MOM', 'Youth & Sports', 'Indian Embassy Residence', 'Bahrain Kuwait Embassy', 'Beacon Private School'],
   },
   {
     title: 'Commercial & Residential',
-    text: 'Delivering pool, fountain, plumbing, and maintenance scope for buildings that stay in daily use.',
-    clients: ['Kingdom Mall', 'Residential Buildings', 'Commercial Residences'],
+    text: 'Helping active buildings with pool, fountain, plumbing, and maintenance requirements.',
+    clients: ['Kingdom Mall', 'Dana Mall', 'Durat Al Bahrain', 'Commercial Residences', 'Residential Buildings'],
   },
 ];
 
@@ -527,7 +610,7 @@ export default function App() {
           <SectionHeading
             eyebrow="Vision, Mission & Values"
             title="Built on trust, craft, and technical reliability."
-            text="Established on 09 September 2016, Astral Pools and Plumbing W.L.L. delivers integrated civil, mechanical, electrical, plumbing, HDPE, pool, and water-feature solutions with a disciplined focus on durable results."
+            text="Established on 09 September 2016, Astral Pools and Plumbing W.L.L. serves clients across pool construction, plumbing, HDPE, MEP, water features, and maintenance with a focus on reliable workmanship."
           />
           <div className="values-grid">
             {values.map(({ title, text, icon: Icon }) => (
@@ -546,7 +629,7 @@ export default function App() {
               <SectionHeading
                 eyebrow="Our Services"
                 title="A balanced portfolio of pool, plumbing, maintenance, and water-feature services."
-                text="From elegant pool construction to technical infrastructure support, Astral brings design attention and field discipline to every engagement."
+                text="Astral helps clients with pool construction, plumbing, maintenance, and water-feature works through clear planning and dependable site execution."
               />
             </div>
             <div className="service-list reveal">
@@ -560,13 +643,62 @@ export default function App() {
           </div>
         </section>
 
+        <section id="products" className="section products">
+          <div className="products-shell">
+            <div className="products-header">
+              <SectionHeading
+                eyebrow="Our Products"
+                title="A complete pool supply range for every project need."
+                text="Astral supplies pool equipment, finishes, and accessories to suit each project, with guidance on selection, installation, and maintenance."
+              />
+              <div className="product-range-note reveal">
+                <span>Complete supply support</span>
+                <strong>From main equipment to finishing items, Astral can source pool products based on your requirement.</strong>
+                <a href="#contact" onClick={() => setRenderDeferredSections(true)}>
+                  Ask About Product Supply <ArrowRight size={16} aria-hidden="true" focusable="false" />
+                </a>
+              </div>
+            </div>
+
+            <div className="product-rail-wrap reveal" aria-label="Pool equipment product rail">
+              <p className="product-swipe-cue">Swipe to view products</p>
+              <div className="product-rail">
+                {products.map((product, index) => (
+                  <article className="product-tile" key={product.title} style={{ '--delay': `${index * 45}ms` }}>
+                    <LazyImage
+                      src={product.image}
+                      alt={`${product.title} supplied by Astral Pools and Plumbing`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div>
+                      <span>{product.group}</span>
+                      <h3>{product.title}</h3>
+                      <small>{product.note}</small>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="product-range-footer">
+              <p>Products can be supplied for new pools, upgrades, maintenance work, and replacement needs.</p>
+              <div className="retail-essentials reveal" aria-label="Additional retail items">
+                {retailEssentials.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="expertise" className="section expertise">
           <div className="split">
             <div>
               <SectionHeading
                 eyebrow="Our Expertise"
-                title="Technical capability behind the finish."
-                text="Astral combines civil works, HDPE piping, electrical systems, plumbing networks, and maintenance support into one coordinated delivery model."
+                title="Pool systems planned and built properly."
+                text="Astral brings together civil, plumbing, HDPE, electrical, and maintenance teams so clients can manage related pool works with one partner."
               />
               <div className="expertise-grid">
                 {expertise.map(({ title, text, icon: Icon }) => (
@@ -586,8 +718,8 @@ export default function App() {
             <section id="assurance" className="section assurance">
               <SectionHeading
                 eyebrow="Quality, Safety & Support"
-                title="Built to perform after handover."
-                text="Every project is supported by durable materials, safe installation practices, and maintenance care designed to protect long-term performance."
+                title="Support that continues after handover."
+                text="We use suitable materials, follow safe installation practices, and support clients after handover through maintenance and service."
               />
               <div className="assurance-grid">
                 {assurance.map(({ title, intro, points, image, icon: Icon }) => (
@@ -612,13 +744,17 @@ export default function App() {
               <div className="why-layout">
                 <SectionHeading
                   eyebrow="Why Choose Us"
-                  title="Detail-led delivery with the discipline clients expect."
-                  text="Astral focuses on long-lasting results, careful coordination, and transparent project communication from the first site discussion to after-sales support."
+                  title="Careful work, clear updates, and reliable support."
+                  text="Clients choose Astral for experienced teams, clear communication, careful coordination, and support after the work is complete."
                 />
                 <div className="why-grid">
                   {whyChooseUs.map((item, index) => (
-                    <article className="why-card reveal" key={item} style={{ '--delay': `${index * 55}ms` }}>
-                      <DecorativeIcon icon={Award} size={20} />
+                    <article
+                      className="why-card reveal"
+                      key={item}
+                      style={{ '--delay': `${index * 55}ms` }}
+                    >
+                      <span>{String(index + 1).padStart(2, '0')}</span>
                       <h3>{item}</h3>
                     </article>
                   ))}
@@ -629,8 +765,8 @@ export default function App() {
             <section id="projects" className="section projects">
               <SectionHeading
                 eyebrow="Our Projects"
-                title="Selected work across pools, fountains, plumbing, and cooling systems."
-                text="Explore a selection of completed work across swimming pools, fountains, plumbing, and cooling systems for varied project environments."
+                title="Completed pool, plumbing, and water-feature works."
+                text="A selection of completed pool, fountain, plumbing, and cooling works across residential, commercial, and public-facing projects."
               />
               <div className="project-grid">
                 {projects.map(([name, type, image]) => (
@@ -649,7 +785,7 @@ export default function App() {
               <SectionHeading
                 eyebrow="Our Clients"
                 title="Trusted by residential, commercial, and public-facing project teams."
-                text="Astral values long-term relationships built on trust, performance, transparent communication, and reliable after-sales support."
+                text="Astral works to build long-term client relationships through reliable service, clear updates, and after-sales support."
               />
               <div className="client-showcase">
                 <aside className="client-proof reveal" aria-label="Client sectors">
@@ -687,8 +823,8 @@ export default function App() {
             <section id="team" className="section staff">
               <SectionHeading
                 eyebrow="Our Team"
-                title="Experienced leadership for commercial and technical delivery."
-                text="Our leadership and technical team help clients move from initial discussions to coordinated site execution with clear responsibility and practical support."
+                title="A team clients can coordinate with clearly."
+                text="Our leadership and technical team support clients from the first enquiry through planning, site coordination, and completion."
               />
               <div className="staff-grid">
                 {staff.map(({ name, role, image, text }) => (
