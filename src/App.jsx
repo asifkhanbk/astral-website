@@ -23,21 +23,18 @@ import equipmentRoom from './assets/equipment-room.webp';
 import siteService from './assets/site-service.webp';
 import footerPool from './assets/footer-premium-pool.webp';
 import marassiPark from './assets/project-marassi-park.webp';
-import marassiShore from './assets/project-marassi-shore.webp';
+import marassiShore from './assets/project-marassi-shore-night-pool.jpg';
 import danaMall from './assets/project-dana-mall.webp';
 import iraqEmbassy from './assets/project-iraq-embassy.webp';
-import kingdomMall from './assets/project-kingdom-mall.webp';
-import bahrainKuwait from './assets/project-bahrain-kuwait-embassy.webp';
-import riffaViews from './assets/project-riffa-views.webp';
-import youthSports from './assets/project-youth-sports.webp';
-import protoAmwaj from './assets/project-proto-amwaj.webp';
+import kingdomMall from './assets/project-kingdom-mall-water-feature.jpg';
+import bahrainKuwait from './assets/project-bahrain-kuwait-embassy-profile.jpg';
+import riffaViews from './assets/project-riffa-views-pool-work.jpg';
+import youthSports from './assets/project-youth-sports-muharraq.jpg';
+import protoAmwaj from './assets/project-proto-amwaj-page4-last.jpg';
 import seefTerrasse from './assets/project-seef-terrasse.webp';
 import oneOnlyResort from './assets/project-one-only-resort.webp';
-import duratAlBahrain from './assets/project-durat-al-bahrain.webp';
-import staffAli from './assets/staff-ali-salman.webp';
-import staffAjithkhan from './assets/staff-ajithkhan-panamparambil.webp';
-import staffSreemon from './assets/staff-sreemon-janardhanan.webp';
-import staffSanthosh from './assets/staff-santhosh-daniel.webp';
+import duratAlBahrain from './assets/project-durat-al-bahrain-mona-almoayyed.jpg';
+import beaconPrivateSchool from './assets/project-beacon-private-school.jpg';
 import retailPump from './assets/retail-pump.webp';
 import retailFilter from './assets/retail-filter.webp';
 import retailChiller from './assets/retail-chiller.png';
@@ -52,7 +49,7 @@ const navItems = [
   { label: 'About', id: 'about' },
   { label: 'Services', id: 'services' },
   { label: 'Projects', id: 'projects' },
-  { label: 'Team', id: 'team' },
+  { label: 'Structure', id: 'team' },
   { label: 'Contact', id: 'contact' },
 ];
 
@@ -217,30 +214,22 @@ const assurance = [
   },
 ];
 
-const staff = [
+const organizationBranches = [
   {
-    name: 'Ali Salman Ali Salman Almadhawab',
-    role: 'Managing Director',
-    image: staffAli,
-    text: 'Leads the company and helps maintain clear standards for client service and project delivery.',
+    title: 'Accounts',
+    text: 'Financial coordination and project account support.',
+    items: [],
+    terminal: true,
   },
   {
-    name: 'Ajithkhan Panamparambil',
-    role: 'Business Development Manager',
-    image: staffAjithkhan,
-    text: 'Supports client communication, project enquiries, and business relationships from the first discussion.',
+    title: 'Projects',
+    text: 'Site delivery flow from project control to field teams.',
+    items: ['Project Manager', 'Site Engineer', 'Site Supervisor', 'Technician', 'Helper 1'],
   },
   {
-    name: 'Sreemon Janardhanan',
-    role: 'MEP Coordinator',
-    image: staffSreemon,
-    text: 'Coordinates mechanical, electrical, and plumbing requirements for pool systems and site work.',
-  },
-  {
-    name: 'Santhosh Daniel',
-    role: 'Project Manager',
-    image: staffSanthosh,
-    text: 'Manages site coordination and supports smooth project progress from planning to completion.',
+    title: 'Office Administration',
+    text: 'Administrative support for procurement, documentation, and logistics.',
+    items: ['Logistics', 'Purchase', 'Project Support', 'Document Controller'],
   },
 ];
 
@@ -257,6 +246,7 @@ const projects = [
   ['Bahrain Kuwait Embassy', 'Swimming pool', bahrainKuwait],
   ['Park 3, Riffa Views', 'Swimming pool works', riffaViews],
   ['Youth & Sports Muharraq', 'Fountain / water feature', youthSports],
+  ['Beacon Private School', 'External lighting and MEP works', beaconPrivateSchool],
 ];
 
 const clientProof = [
@@ -399,34 +389,43 @@ export default function App() {
       }, navItems[0].id);
     };
 
-    const updateActiveSection = () => setActiveSection(getActiveNavId());
+    const updateScrolledState = () => {
+      const nextScrolledState = window.scrollY > 32;
+      setIsScrolled((currentScrolledState) =>
+        currentScrolledState === nextScrolledState ? currentScrolledState : nextScrolledState,
+      );
+    };
 
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 32);
+    const updateActiveSection = () => {
+      const nextActiveSection = getActiveNavId();
+      setActiveSection((currentActiveSection) =>
+        currentActiveSection === nextActiveSection ? currentActiveSection : nextActiveSection,
+      );
+    };
+
+    let frameId = 0;
+    let hashChangeTimeoutId = 0;
+
+    const updateViewportState = () => {
+      frameId = 0;
+      updateScrolledState();
       updateActiveSection();
     };
 
+    const requestViewportUpdate = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateViewportState);
+    };
+
     const handleHashChange = () => {
-      window.setTimeout(updateActiveSection, 180);
+      window.clearTimeout(hashChangeTimeoutId);
+      hashChangeTimeoutId = window.setTimeout(requestViewportUpdate, 180);
     };
 
-    let frameId;
-    let lastScrollY = -1;
-    let lastInnerHeight = -1;
-    const trackScrollPosition = () => {
-      if (window.scrollY !== lastScrollY || window.innerHeight !== lastInnerHeight) {
-        lastScrollY = window.scrollY;
-        lastInnerHeight = window.innerHeight;
-        handleScroll();
-      }
-      frameId = window.requestAnimationFrame(trackScrollPosition);
-    };
-
-    handleScroll();
-    frameId = window.requestAnimationFrame(trackScrollPosition);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('scrollend', updateActiveSection, { passive: true });
-    window.addEventListener('resize', handleScroll);
+    updateViewportState();
+    window.addEventListener('scroll', requestViewportUpdate, { passive: true });
+    window.addEventListener('scrollend', requestViewportUpdate, { passive: true });
+    window.addEventListener('resize', requestViewportUpdate);
     window.addEventListener('hashchange', handleHashChange);
 
     const revealed = document.querySelectorAll('.reveal');
@@ -446,9 +445,10 @@ export default function App() {
 
     return () => {
       window.cancelAnimationFrame(frameId);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('scrollend', updateActiveSection);
-      window.removeEventListener('resize', handleScroll);
+      window.clearTimeout(hashChangeTimeoutId);
+      window.removeEventListener('scroll', requestViewportUpdate);
+      window.removeEventListener('scrollend', requestViewportUpdate);
+      window.removeEventListener('resize', requestViewportUpdate);
       window.removeEventListener('hashchange', handleHashChange);
       observer.disconnect();
     };
@@ -661,7 +661,6 @@ export default function App() {
             </div>
 
             <div className="product-rail-wrap reveal" aria-label="Pool equipment product rail">
-              <p className="product-swipe-cue">Swipe to view products</p>
               <div className="product-rail">
                 {products.map((product, index) => (
                   <article className="product-tile" key={product.title} style={{ '--delay': `${index * 45}ms` }}>
@@ -820,23 +819,42 @@ export default function App() {
               </div>
             </section>
 
-            <section id="team" className="section staff">
+            <section id="team" className="section organization">
               <SectionHeading
-                eyebrow="Our Team"
-                title="A team clients can coordinate with clearly."
-                text="Our leadership and technical team support clients from the first enquiry through planning, site coordination, and completion."
+                eyebrow="Our Structure"
+                title="Clear responsibility from management to site delivery."
+                text="Astral's organization structure keeps project communication, site execution, administration, and support responsibilities clearly defined."
               />
-              <div className="staff-grid">
-                {staff.map(({ name, role, image, text }) => (
-                  <article className="staff-card reveal" key={name}>
-                    <LazyImage src={image} alt={`${name}, ${role}`} loading="lazy" decoding="async" />
-                    <div>
-                      <p>{role}</p>
-                      <h3>{name}</h3>
-                      <span>{text}</span>
-                    </div>
-                  </article>
-                ))}
+              <div className="org-chart reveal" aria-label="Astral organization structure">
+                <div className="org-top">
+                  <span
+                    className="org-heading-tooltip"
+                    tabIndex={0}
+                    data-tooltip="Central direction for project decisions, client communication, and delivery standards."
+                  >
+                    Executive Management
+                  </span>
+                </div>
+                <div className="org-connectors" aria-hidden="true">
+                  {organizationBranches.map((branch) => (
+                    <span key={branch.title} />
+                  ))}
+                </div>
+                <div className="org-branches">
+                  {organizationBranches.map((branch, index) => (
+                    <article className={`org-branch${branch.terminal ? ' is-terminal' : ''}`} key={branch.title}>
+                      <span>{String(index + 1).padStart(2, '0')}</span>
+                      <h3 className="org-heading-tooltip" tabIndex={0} data-tooltip={branch.text}>{branch.title}</h3>
+                      {branch.items.length > 0 && (
+                        <ol>
+                          {branch.items.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ol>
+                      )}
+                    </article>
+                  ))}
+                </div>
               </div>
             </section>
 
