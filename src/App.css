@@ -228,7 +228,6 @@ a {
   transition:
     min-height 260ms ease,
     background 260ms ease,
-    backdrop-filter 260ms ease,
     border-color 260ms ease,
     box-shadow 260ms ease,
     padding 260ms ease;
@@ -237,9 +236,9 @@ a {
 .site-header.is-scrolled {
   min-height: 76px;
   padding-block: 10px;
-  background: linear-gradient(90deg, rgba(4, 22, 61, 0.84), rgba(8, 41, 104, 0.78) 62%, rgba(6, 31, 82, 0.84));
-  backdrop-filter: blur(18px) saturate(130%);
-  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  background: linear-gradient(90deg, rgba(4, 22, 61, 0.92), rgba(8, 41, 104, 0.88) 62%, rgba(6, 31, 82, 0.92));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-color: rgba(143, 213, 239, 0.28);
   box-shadow: 0 18px 64px rgba(3, 14, 38, 0.26);
 }
@@ -414,7 +413,6 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  animation: heroDrift 22s ease-in-out infinite alternate;
 }
 
 .hero-overlay {
@@ -511,8 +509,6 @@ a {
 }
 
 .section {
-  content-visibility: auto;
-  contain-intrinsic-size: 760px;
   padding: clamp(70px, 8.5vw, 118px) clamp(22px, 6vw, 86px);
 }
 
@@ -923,9 +919,6 @@ a {
   border-radius: var(--curve-xl);
   background: #ffffff;
   box-shadow: 0 20px 58px rgba(20, 39, 95, 0.08);
-  backdrop-filter: blur(12px);
-  animation: productTileIn 520ms ease both;
-  animation-delay: var(--delay);
   transition: transform var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast);
 }
 
@@ -1013,18 +1006,6 @@ a {
   border: 1px solid rgba(18, 53, 141, 0.1);
   font-size: 0.82rem;
   font-weight: 850;
-}
-
-@keyframes productTileIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .why-us {
@@ -1762,8 +1743,6 @@ a {
 
 .contact {
   position: relative;
-  content-visibility: auto;
-  contain-intrinsic-size: 820px;
   min-height: 820px;
   overflow: hidden;
   background: var(--blue-deep);
@@ -1922,23 +1901,14 @@ img.is-loaded {
 
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity var(--motion-enter), transform var(--motion-enter);
+  transform: translateY(10px);
+  transition: opacity 420ms ease, transform 420ms ease;
   transition-delay: var(--delay, 0ms);
 }
 
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-@keyframes heroDrift {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.04) translate3d(-1%, -0.75%, 0);
-  }
 }
 
 @keyframes preloadSweep {
@@ -2141,7 +2111,6 @@ img.is-loaded {
     border-radius: 999px;
     color: white;
     background: rgba(255, 255, 255, 0.085);
-    backdrop-filter: blur(10px);
   }
 
   .mobile-nav-backdrop {

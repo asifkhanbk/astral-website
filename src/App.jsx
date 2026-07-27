@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
-  Award,
   Building2,
   CheckCircle2,
   Droplets,
@@ -27,7 +26,7 @@ import marassiShore from './assets/project-marassi-shore-night-pool.jpg';
 import danaMall from './assets/project-dana-mall.webp';
 import iraqEmbassy from './assets/project-iraq-embassy.webp';
 import kingdomMall from './assets/project-kingdom-mall-water-feature.jpg';
-import bahrainKuwait from './assets/project-bahrain-kuwait-embassy-profile.jpg';
+import bahrainKuwait from './assets/project-bahrain-kuwait-embassy-profile.webp';
 import riffaViews from './assets/project-riffa-views-pool-work.jpg';
 import youthSports from './assets/project-youth-sports-muharraq.jpg';
 import protoAmwaj from './assets/project-proto-amwaj-page4-last.jpg';
@@ -376,16 +375,23 @@ export default function App() {
     const sectionNavTargets = navSectionGroups.flatMap((group) =>
       group.sectionIds.map((sectionId) => ({ sectionId, navId: group.navId })),
     );
+    let sectionPositions = [];
+
+    const updateSectionPositions = () => {
+      sectionPositions = sectionNavTargets
+        .map(({ sectionId, navId }) => {
+          const section = document.getElementById(sectionId);
+          return section ? { top: section.offsetTop, navId } : null;
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.top - b.top);
+    };
 
     const getActiveNavId = () => {
       const readingLine = window.scrollY + window.innerHeight * 0.42;
-      const orderedTargets = sectionNavTargets
-        .map(({ sectionId, navId }) => ({ section: document.getElementById(sectionId), navId }))
-        .filter(({ section }) => section)
-        .sort((a, b) => a.section.offsetTop - b.section.offsetTop);
 
-      return orderedTargets.reduce((activeNavId, { section, navId }) => {
-        return section.offsetTop <= readingLine ? navId : activeNavId;
+      return sectionPositions.reduce((activeNavId, { top, navId }) => {
+        return top <= readingLine ? navId : activeNavId;
       }, navItems[0].id);
     };
 
@@ -417,15 +423,22 @@ export default function App() {
       frameId = window.requestAnimationFrame(updateViewportState);
     };
 
+    const handleLayoutChange = () => {
+      updateSectionPositions();
+      requestViewportUpdate();
+    };
+
     const handleHashChange = () => {
       window.clearTimeout(hashChangeTimeoutId);
       hashChangeTimeoutId = window.setTimeout(requestViewportUpdate, 180);
     };
 
+    updateSectionPositions();
     updateViewportState();
     window.addEventListener('scroll', requestViewportUpdate, { passive: true });
     window.addEventListener('scrollend', requestViewportUpdate, { passive: true });
-    window.addEventListener('resize', requestViewportUpdate);
+    window.addEventListener('resize', handleLayoutChange);
+    window.addEventListener('load', handleLayoutChange);
     window.addEventListener('hashchange', handleHashChange);
 
     const revealed = document.querySelectorAll('.reveal');
@@ -448,7 +461,8 @@ export default function App() {
       window.clearTimeout(hashChangeTimeoutId);
       window.removeEventListener('scroll', requestViewportUpdate);
       window.removeEventListener('scrollend', requestViewportUpdate);
-      window.removeEventListener('resize', requestViewportUpdate);
+      window.removeEventListener('resize', handleLayoutChange);
+      window.removeEventListener('load', handleLayoutChange);
       window.removeEventListener('hashchange', handleHashChange);
       observer.disconnect();
     };
