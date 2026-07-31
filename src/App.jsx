@@ -734,22 +734,45 @@ export default function App() {
                 title="Support that continues after handover."
                 text="We use suitable materials, follow safe installation practices, and support clients after handover through maintenance and service."
               />
-              <div className="assurance-grid">
-                {assurance.map(({ title, intro, points, image, icon: Icon }) => (
-                  <article className="assurance-card reveal" key={title}>
-                    <LazyImage src={image} alt={`${title} by Astral Pools and Plumbing`} loading="lazy" decoding="async" />
-                    <div>
-                      <DecorativeIcon icon={Icon} size={24} />
-                      <h3>{title}</h3>
-                      <p>{intro}</p>
-                      <ul>
-                        {points.map((point) => (
-                          <li key={point}>{point}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </article>
-                ))}
+              <div className="assurance-showcase">
+                <div className="assurance-media reveal">
+                  <LazyImage
+                    className="assurance-main-image"
+                    src={equipmentRoom}
+                    alt="Pool equipment installation by Astral Pools and Plumbing"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="assurance-media-caption">
+                    <span>Checked systems</span>
+                    <strong>Installed with care, tested before handover.</strong>
+                  </div>
+                  <LazyImage
+                    className="assurance-inset-image"
+                    src={siteService}
+                    alt="Pool maintenance and site support by Astral Pools and Plumbing"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
+                <div className="assurance-content">
+                  <p className="assurance-kicker reveal">Reliable delivery needs disciplined work on site and useful support after completion.</p>
+                  <div className="assurance-promises">
+                    {assurance.map(({ title, intro, points, icon: Icon }) => (
+                      <article className="assurance-card reveal" key={title}>
+                        <DecorativeIcon icon={Icon} size={24} />
+                        <h3>{title}</h3>
+                        <p>{intro}</p>
+                        <ul>
+                          {points.map((point) => (
+                            <li key={point}>{point}</li>
+                          ))}
+                        </ul>
+                      </article>
+                    ))}
+                  </div>
+                </div>
               </div>
             </section>
 
